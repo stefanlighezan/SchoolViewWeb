@@ -1,0 +1,68 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #0d1117; /* GitHub dark background color */
+    color: #c9d1d9; /* GitHub light text color */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+#root {
+    width: 100%;
+    max-width: 400px; /* Limiting form width for better readability */
+    padding: 20px;
+    background-color: #161b22; /* GitHub dark background color */
+    border: 1px solid #30363d; /* GitHub dark border color */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #30363d; /* GitHub dark border color */
+    border-radius: 4px;
+    font-size: 16px;
+    color: #c9d1d9; /* GitHub light text color */
+    background-color: #0d1117; /* GitHub dark background color */
+    transition: border-color 0.2s ease-in-out;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #58a6ff; /* GitHub focus color in dark mode */
+}
+
+button[type="submit"] {
+    background-color: #2ea44f; /* GitHub's green color */
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #24d447; /* Lighter green on hover */
+}
