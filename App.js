@@ -40,6 +40,55 @@ if (!currentUser || !accessToken) {
 
     // Wait for DOM content to load before manipulating
     // Wait for DOM content to load before manipulating
+// Fetch drafts data from Firestore
+async function fetchDrafts() {
+    const draftsRef = collection(db, 'users');
+    const q = query(draftsRef, where("uid", "==", currentUser.uid));
+    const querySnapshot = await getDocs(q);
+    let drafts = [];
+    querySnapshot.forEach((doc) => {
+        drafts = doc.data().drafts;
+    });
+    return drafts;
+}
+
+// Function to render drafts
+async function renderDrafts() {
+    try {
+        // Fetch drafts data
+        const drafts = await fetchDrafts();
+
+        // Select the draftsList element where drafts will be displayed
+        const draftsListDiv = document.getElementById('draftsList');
+
+        // Clear any existing content
+        draftsListDiv.innerHTML = '';
+
+        // Loop through each draft and create HTML elements
+        drafts.forEach(draft => {
+            const draftDiv = document.createElement('div');
+            draftDiv.classList.add('draft-card');
+
+            const draftImage = document.createElement('img');
+            draftImage.src = draft.url;
+            draftImage.alt = draft.title;
+            draftImage.classList.add('draft-image');
+
+            const draftTitle = document.createElement('p');
+            draftTitle.textContent = draft.title;
+            draftTitle.classList.add('draft-title');
+
+            draftDiv.appendChild(draftImage);
+            draftDiv.appendChild(draftTitle);
+
+            draftsListDiv.appendChild(draftDiv);
+        });
+    } catch (error) {
+        console.error('Error fetching drafts:', error);
+    }
+}
+
+// Wait for DOM content to load before manipulating
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         // Fetch courses data
@@ -70,10 +119,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             rootDiv.appendChild(courseDiv);
         });
+
+        // Render drafts
+        await renderDrafts();
     } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error fetching courses or drafts:', error);
     }
 });
-
-
 }

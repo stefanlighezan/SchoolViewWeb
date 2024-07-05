@@ -99,7 +99,9 @@ async function fetchCourses(access_token) {
     let hasMorePages = true;
 
         while (hasMorePages) {
-            const response = await fetch(`${access_token}&page=${pageNumber}`);
+            const response = await fetch(`${access_token}&page=${pageNumber}`, {
+                credentials: 'omit'  
+              })
             if (!response.ok) {
                 throw new Error('Failed to fetch courses');
             }
