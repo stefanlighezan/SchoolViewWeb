@@ -7,7 +7,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyDchFtmBO2kAmHz5nXhJoynpkzYlOypTIU",
     authDomain: "schoolviewapp-197d2.firebaseapp.com",
     projectId: "schoolviewapp-197d2",
-    storageBucket: "schoolviewapp-197d2",
+    storageBucket: "schoolviewapp-197d2.appspot.com",
     messagingSenderId: "74687319461",
     appId: "1:74687319461:web:880eb0e5c043bf99896c4c",
     measurementId: "G-DQHSNYT08D"
@@ -34,22 +34,37 @@ authForm.addEventListener('submit', async (e) => {
         const courses = await fetchCourses(accessToken);
 
         // Prepare courses data for Firestore
-        const coursesData = courses.map(course => {
-            return {
-                name: course.name,
-                createdAt: course.created_at,
-                notes: [] // Initialize notes array for each course
-            };
+        let coursesData = []
+
+        console.log(courses)
+
+        courses.forEach(course => {
+            if(!course.isNull())coursesData.push(course)
         });
 
-        console.log("here")
+        let finalCoursesList = []
 
-        await addDoc(collection(db, 'users'), {
-            uid: user.uid,
-            accessToken: accessToken,
-            drafts: [],
-            courses: arrayUnion(...coursesData)
-        });
+        coursesData.forEach((c) => {
+            let dict = {
+                name: c.name,
+                id: c.id,
+                created_at: c.created_at
+            }
+
+            finalCoursesList.push(dict)
+        })
+
+        try {
+            console.log(...coursesData)
+            await addDoc(collection(db, 'users'), {
+                uid: user.uid,
+                accessToken: accessToken,
+                drafts: [],
+                courses: finalCoursesList
+            });
+        } catch (error){
+            console.log(error)
+        }
         alert('Account created successfully!');
     } catch (error) {
         if (error.code === 'auth/email-already-in-use') {
@@ -66,42 +81,50 @@ authForm.addEventListener('submit', async (e) => {
     }
 });
 
-async function fetchCourses(accessToken) {
+async function fetchCourses(access_token) {
     let allCourses = [];
     let pageNumber = 1;
     let hasMorePages = true;
 
-    while (hasMorePages) {
-        const response = await fetch(`${accessToken}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch classes');
-        }
-        const courses = await response.json();
+        while (hasMorePages) {
+            const response = await fetch(`${access_token}&page=${pageNumber}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch courses');
+            }
+            const _courses = await response.json();
 
-        if (Array.isArray(courses) && courses.length > 0) {
-            // Convert API data to Course objects
-            const convertedCourses = courses.map(course => {
-                return new Course(course.id, course.name, course.course_code, course.start_date, course.end_date, course.enrollment_term);
-            });
-            allCourses = allCourses.concat(convertedCourses);
-            pageNumber++;
-        } else {
-            hasMorePages = false;
+            if (Array.isArray(_courses) && _courses.length > 0) {
+                _courses.forEach((course) => {
+                    allCourses.push(new Course(course.id, course.name, course.created_at))
+                })
+                pageNumber++
+            } else {
+                hasMorePages = false;
+            }
         }
-    }
 
     return allCourses
-    
 }
 
 // Data class for Course
 class Course {
-    constructor(id, name, courseCode, startDate, endDate, enrollmentTerm) {
-        this.id = id;
-        this.name = name;
-        this.courseCode = courseCode;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.enrollmentTerm = enrollmentTerm;
+    constructor(id, name, created_at) {
+        this.id = id
+        this.name = name
+        this.created_at = created_at
+    }
+
+    isNull() {
+        return !this.id || !this.name || !this.created_at;
+    }
+
+    isOutdated() {
+        // Calculate current date and one year ago
+        const currentDate = new Date();
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+        // Compare course creation date with one year ago
+        return this.created_at < oneYearAgo;
     }
 }
