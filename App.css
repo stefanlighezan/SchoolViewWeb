@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #0d1117; /* GitHub dark background color */
+    color: #c9d1d9; /* GitHub light text color */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+#root {
+    width:auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 8px;
+    padding: 20px;
+    background-color: #0d1117; /* GitHub dark background color */
+    border: 1px solid #30363d; /* GitHub dark border color */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.course-card {
+    background-color: #161b22; /* GitHub dark background color */
+    color: #c9d1d9; /* GitHub light text color */
+    border: 1px solid #30363d; /* GitHub dark border color */
+    border-radius: 8px;
+    padding: 20px;
+    width: calc(100% / 3 - 30px); /* Responsive layout for three cards per row */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    margin-bottom: 20px; /* Space between cards */
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.course-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.course-created {
+    font-size: 0.9rem;
+    color: #8b949e; /* GitHub light text color */
+}
+
+.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #0d1117; /* GitHub dark background color */
+    color: #c9d1d9; /* GitHub light text color */
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode-toggle:hover {
+    background-color: #161b22; /* Darker background on hover */
+}
+
+.dark-mode .course-card {
+    background-color: #0d1117; /* GitHub darker background color */
+    color: #c9d1d9; /* GitHub light text color */
+    border: 1px solid #30363d; /* GitHub dark border color */
+}
+
+.dark-mode .course-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .dark-mode-toggle {
+    background-color: #c9d1d9; /* GitHub light background color */
+    color: #0d1117; /* GitHub dark text color */
+}
+
+.dark-mode .dark-mode-toggle:hover {
+    background-color: #8b949e; /* Lighter background on hover */
+}

@@ -39,7 +39,7 @@ authForm.addEventListener('submit', async (e) => {
         console.log(courses)
 
         courses.forEach(course => {
-            if(!course.isNull())coursesData.push(course)
+            if(!course.isNull() && !course.isOutdated()) {coursesData.push(course)}
         });
 
         let finalCoursesList = []
@@ -62,6 +62,12 @@ authForm.addEventListener('submit', async (e) => {
                 drafts: [],
                 courses: finalCoursesList
             });
+
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            sessionStorage.setItem('accessToken', accessToken);
+
+            // Redirect to App.html
+            window.location.href = 'App.html';
         } catch (error){
             console.log(error)
         }
@@ -72,6 +78,12 @@ authForm.addEventListener('submit', async (e) => {
                 // If email is already in use, try to sign in instead
                 await signInWithEmailAndPassword(auth, email, password);
                 alert('Logged in successfully!');
+
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                sessionStorage.setItem('accessToken', accessToken);
+
+                // Redirect to App.html
+                window.location.href = 'App.html';
             } catch (signInError) {
                 alert(`Error signing in: ${signInError.message}`);
             }
@@ -121,10 +133,14 @@ class Course {
     isOutdated() {
         // Calculate current date and one year ago
         const currentDate = new Date();
-        const oneYearAgo = new Date();
-        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+        const oneYearFromCreatedAt = new Date(this.created_at);
+        oneYearFromCreatedAt.setFullYear(oneYearFromCreatedAt.getFullYear() + 1);
+        oneYearFromCreatedAt.setMonth(5)
 
-        // Compare course creation date with one year ago
-        return this.created_at < oneYearAgo;
+        console.log(currentDate > oneYearFromCreatedAt)
+
+        // Compare course creation date with one year from now
+
+        return currentDate > oneYearFromCreatedAt;
     }
 }
