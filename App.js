@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-import { getAuth, signOut  } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
 import { getFirestore, collection, query, where,getDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 // Retrieve user and access token from session storage
@@ -14,16 +13,15 @@ if (!currentUser || !accessToken) {
     // Initialize Firebase app and services
 
     const firebaseConfig = {
-        apiKey: "AIzaSyDchFtmBO2kAmHz5nXhJoynpkzYlOypTIU",
-        authDomain: "schoolviewapp-197d2.firebaseapp.com",
-        projectId: "schoolviewapp-197d2",
-        storageBucket: "schoolviewapp-197d2.appspot.com",
-        messagingSenderId: "74687319461",
-        appId: "1:74687319461:web:880eb0e5c043bf99896c4c",
-        measurementId: "G-DQHSNYT08D"
+        apiKey: config.apiKey,
+        authDomain: config.authDomain,
+        projectId: config.projectId,
+        storageBucket: config.storageBucket,
+        messagingSenderId: config.messagingSenderId,
+        appId: config.appId,
+        measurementId: config.measurementId
     };
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
     let globalCourses = []
     let globalUserRef = null
@@ -85,7 +83,7 @@ async function renderDrafts() {
             const br = document.createElement("br")
 
             const draftDropdown = document.createElement("select")
-            
+
             let defaultOption = new Option()
             defaultOption.value = 0
             defaultOption.text = "No Course Selected"
@@ -129,8 +127,9 @@ async function renderDrafts() {
                         if (draftIndex !== -1) {
                             // Remove the draft from globalUserRef.drafts
                             console.log("here")
-                            globalUserRef.data().drafts.splice(draftIndex, 1);
-            
+                            let __drafts = globalUserRef.data().drafts
+                            __drafts.splice(draftIndex, 1);
+                            
                             // Append the draft to the selected course's notes array
                             if (!selectedCourse.notes) {
                                 selectedCourse.notes = [];
@@ -143,7 +142,7 @@ async function renderDrafts() {
             
                             // Update the document with the modified drafts and courses
                             await updateDoc(globalUserRef.ref, {
-                                drafts: globalUserRef.data().drafts,
+                                drafts: __drafts,
                                 courses: globalCourses
                             });
             
@@ -187,6 +186,16 @@ async function renderDrafts() {
             draftDiv.appendChild(draftDropdownChange)
             draftsListDiv.appendChild(draftDiv);
         });
+
+        // Add event listener to each course card to navigate to CourseView.html
+        const courseCards = document.querySelectorAll('.course-card');
+        courseCards.forEach(courseCard => {
+            courseCard.addEventListener('click', () => {
+                const courseName = courseCard.querySelector('.course-name').textContent.trim();
+                window.location.href = `CourseView.html?name=${encodeURIComponent(courseName)}`;
+            });
+        });
+
     } catch (error) {
         console.error('Error fetching drafts:', error);
     }

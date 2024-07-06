@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course View</title>
+    <!-- Include any necessary CSS files for styling -->
+    <link rel="stylesheet" href="App.css" />
+  </head>
+  <body>
+    <div id="root" class="course-notes-container">
+      <!-- Course notes will be dynamically added here -->
+    </div>
+
+    <script src="config.js"></script>
+
+    <script type="module">
+      // Initialize Firebase app and services (similar to your existing script)
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+      import {
+        getAuth,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        getDoc,
+        getDocs,
+        updateDoc,
+      } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+      const firebaseConfig = {
+    apiKey: config.apiKey,
+    authDomain: config.authDomain,
+    projectId: config.projectId,
+    storageBucket: config.storageBucket,
+    messagingSenderId: config.messagingSenderId,
+    appId: config.appId,
+    measurementId: config.measurementId
+};
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+      const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+      if (currentUser) {
+        document.addEventListener("DOMContentLoaded", async () => {
+          try {
+            // Parse the query parameter to get the course name
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseName = urlParams.get("name");
+
+            // Fetch courses data
+            const coursesRef = collection(db, "users");
+            const q = query(coursesRef, where("uid", "==", currentUser.uid));
+            const querySnapshot = await getDocs(q);
+            let courses = [];
+            let globalUserRef = null
+            let privateGlobalUserRef = null
+            querySnapshot.forEach((doc) => {
+              globalUserRef = doc.data()
+              privateGlobalUserRef = doc
+              courses = doc.data().courses;
+            });
+
+            // Find the course object matching the courseName
+            const selectedCourse = courses.find(
+              (course) => course.name === courseName,
+            );
+
+            // Display notes associated with the selected course
+            const rootDiv = document.getElementById("root");
+            if (selectedCourse && selectedCourse.notes) {
+              selectedCourse.notes.forEach((note) => {
+                const noteDiv = document.createElement("div");
+                noteDiv.classList.add("note-card");
+
+                const noteTitle = document.createElement("h2");
+                noteTitle.textContent = note.title;
+                noteTitle.classList.add("note-title");
+
+                const noteImage = document.createElement("img");
+                noteImage.src = note.url;
+                noteImage.alt = note.title;
+                noteImage.classList.add("note-image");
+
+                // Add event listener to open the image URL in a new tab
+                noteImage.addEventListener("click", () => {
+                  window.open(note.url, "_blank");
+                });
+
+                // Append the image element to the note card div
+                noteDiv.appendChild(noteImage);
+
+                noteImage.classList.add("note-image");
+
+                const draftDropdown = document.createElement("select");
+
+                let defaultOption = new Option();
+                defaultOption.value = 0;
+                defaultOption.text = "No Course Selected";
+
+                draftDropdown.options.add(defaultOption);
+
+                let selectedIndex = 0;
+
+                for (let i = 0; i < courses.length; i++) {
+                  let dropDownOption = new Option();
+                  dropDownOption.value = i + 1;
+                  dropDownOption.text = `${courses[i].name}`;
+                  draftDropdown.options.add(dropDownOption);
+
+                  if (courses[i].name == selectedCourse.name) {
+                    selectedIndex = i + 1;
+                    draftDropdown.selectedIndex = selectedIndex;
+                  }
+                }
+
+                let draftDropdownChange = document.createElement("button");
+                draftDropdownChange.textContent = "Change Location of Draft?";
+                draftDropdownChange.style.display = "none";
+
+                draftDropdown.addEventListener("change", () => {
+                  if (draftDropdown.value != selectedIndex) {
+                    draftDropdownChange.style.display = "block";
+                  } else {
+                    draftDropdownChange.style.display = "none";
+                  }
+                });
+
+                draftDropdownChange.addEventListener("click", async () => {
+                    let courseToUpdateText = draftDropdown.selectedOptions[0].text;
+
+                    let allDrafts = globalUserRef.drafts
+                    let noteIndex = selectedCourse.notes.findIndex(_note => _note.title === note.title);
+                    let courseIndex = courses.findIndex(_course => _course.name == courseToUpdateText)
+                    if(courseToUpdateText == "No Course Selected") {
+                        allDrafts.push({
+                            title: note.title,
+                            url: note.url
+                        })
+                    } else {
+                        let receivingCourse = courses[courseIndex]
+                        receivingCourse.notes.push({
+                            title: note.title,
+                            url: note.url
+                        })
+                    }
+
+                    selectedCourse.notes.splice(noteIndex, 1)
+            
+                            /*selectedCourse.notes.push({
+                                title: draft.title,
+                                url: draft.url
+                            });*/
+            
+                            // Update the document with the modified drafts and courses
+                            await updateDoc(privateGlobalUserRef.ref, {
+                                drafts: allDrafts,
+                                courses: courses
+                            });
+            
+                            // After saving, re-render drafts
+                            location.reload()
+                            alert(`Moved draft to ${(courseToUpdateText == "No Course Selected") ? "Drafts" : courseToUpdateText}`)
+                    })
+
+                noteDiv.appendChild(noteTitle);
+                noteDiv.appendChild(noteImage);
+
+                noteDiv.appendChild(draftDropdown);
+                noteDiv.appendChild(draftDropdownChange);
+
+                rootDiv.appendChild(noteDiv);
+              });
+            } else {
+              const noNotesMessage = document.createElement("p");
+              noNotesMessage.textContent =
+                "No notes available for this course.";
+              rootDiv.appendChild(noNotesMessage);
+            }
+          } catch (error) {
+            console.error("Error fetching course notes:", error);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

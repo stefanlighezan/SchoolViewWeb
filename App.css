@@ -156,3 +156,8 @@ body {
     background-color: #0d1117; /* GitHub dark background color */
     color: #c9d1d9; /* GitHub light text color */
 }
+
+.note-image {
+    max-width: 800px;
+    border-radius: 8px;
+}

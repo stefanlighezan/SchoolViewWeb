@@ -4,13 +4,13 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-aut
 import { getFirestore, collection, addDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDchFtmBO2kAmHz5nXhJoynpkzYlOypTIU",
-    authDomain: "schoolviewapp-197d2.firebaseapp.com",
-    projectId: "schoolviewapp-197d2",
-    storageBucket: "schoolviewapp-197d2.appspot.com",
-    messagingSenderId: "74687319461",
-    appId: "1:74687319461:web:880eb0e5c043bf99896c4c",
-    measurementId: "G-DQHSNYT08D"
+    apiKey: config.apiKey,
+    authDomain: config.authDomain,
+    projectId: config.projectId,
+    storageBucket: config.storageBucket,
+    messagingSenderId: config.messagingSenderId,
+    appId: config.appId,
+    measurementId: config.measurementId
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
