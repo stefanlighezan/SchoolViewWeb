@@ -40,6 +40,15 @@ if (!currentUser || !accessToken) {
         return courses;
     }
 
+    const logoutButton = document.getElementById('logoutButton');
+    logoutButton.addEventListener('click', () => {
+        // Clear session storage
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('accessToken');
+        // Redirect to login page
+        window.location.href = 'index.html';
+    });
+
     // Wait for DOM content to load before manipulating
     // Wait for DOM content to load before manipulating
 // Fetch drafts data from Firestore
