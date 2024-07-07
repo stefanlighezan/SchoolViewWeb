@@ -25,6 +25,8 @@ authForm.addEventListener('submit', async (e) => {
     const email = authForm.email.value;
     const password = authForm.password.value;
 
+    try{
+
     await signInWithEmailAndPassword(auth, email, password);
             alert('Logged in successfully!');
 
