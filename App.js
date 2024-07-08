@@ -161,6 +161,18 @@ async function renderDrafts() {
                         }
                     }
             });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete?';
+            deleteButton.classList.add('delete-button');
+
+            deleteButton.addEventListener('click', () => {
+                const confirmation = prompt('Are you sure you want to delete this draft? Type "yes" to confirm.');
+                if (confirmation === 'yes') {
+                    // Call function to delete the draft
+                    deleteDraft(draft.id);
+                }
+            });
             
 
             draftLink.appendChild(draftImage); // Append the image to the anchor tag
@@ -174,6 +186,8 @@ async function renderDrafts() {
             saveButton.textContent = 'Save?';
             saveButton.classList.add('save-button');
             saveButton.style.display = "none";
+
+            
 
             draftTitle.addEventListener("change", () => {
                 if (draftTitle.value !== draft.title) {
@@ -192,6 +206,7 @@ async function renderDrafts() {
             draftDiv.appendChild(br)
             draftDiv.appendChild(draftDropdown)
             draftDiv.appendChild(draftDropdownChange)
+            draftDiv.appendChild(deleteButton)
             draftsListDiv.appendChild(draftDiv);
         });
 
