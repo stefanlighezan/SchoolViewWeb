@@ -177,6 +177,7 @@ async function renderDrafts() {
 
             draftLink.appendChild(draftImage); // Append the image to the anchor tag
             draftDiv.appendChild(draftLink); // Append the anchor tag to the draftDiv
+            draftDiv.appendChild(br)
 
             const draftTitle = document.createElement('input');
             draftTitle.value = draft.title;
@@ -202,11 +203,13 @@ async function renderDrafts() {
             });
 
             draftDiv.appendChild(draftTitle);
+            draftDiv.appendChild(br)
             draftDiv.appendChild(saveButton);
             draftDiv.appendChild(br)
+            draftDiv.appendChild(br)
             draftDiv.appendChild(draftDropdown)
-            draftDiv.appendChild(draftDropdownChange)
             draftDiv.appendChild(deleteButton)
+            draftDiv.appendChild(draftDropdownChange)
             draftsListDiv.appendChild(draftDiv);
         });
 
@@ -260,6 +263,7 @@ async function saveDraftChanges(draftId, newTitle) {
 // Wait for DOM content to load before manipulating
 document.addEventListener('DOMContentLoaded', async function() {
     try {
+        
         // Fetch courses data
         const courses = await fetchCourses();
 

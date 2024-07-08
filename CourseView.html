@@ -10,6 +10,7 @@
   <body>
     <div id="root" class="course-notes-container">
       <!-- Course notes will be dynamically added here -->
+      <h1><b>No Notes Here</b></h1>
     </div>
 
     <script src="config.js"></script>
@@ -71,6 +72,7 @@
             // Display notes associated with the selected course
             const rootDiv = document.getElementById("root");
             if (selectedCourse && selectedCourse.notes) {
+              if(selectedCourse.notes.length > 0) rootDiv.innerHTML = ""
               selectedCourse.notes.forEach((note) => {
                 const noteDiv = document.createElement("div");
                 noteDiv.classList.add("note-card");
@@ -167,6 +169,7 @@
 
                 noteDiv.appendChild(noteTitle);
                 noteDiv.appendChild(noteImage);
+                noteDiv.appendChild(document.createElement("br"))
 
                 noteDiv.appendChild(draftDropdown);
                 noteDiv.appendChild(draftDropdownChange);

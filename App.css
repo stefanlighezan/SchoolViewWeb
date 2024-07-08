@@ -7,6 +7,8 @@ body {
 }
 
 .delete-button {
+    margin-top: 8px;
+    margin-left: 32px;
     background-color: transparent;
     color: #d73a49;
     border: 1px solid #d73a49;
@@ -21,6 +23,40 @@ body {
     background-color: #d73a4a6f;
     color: #fff;
 }
+
+@media (max-width: 800px) {
+    body {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+
+    .draft-card,
+    .course-card {
+        width: 100%; /* Full width for each card on smaller screens */
+    }
+
+    .delete-button {
+        margin-left: 0; /* Adjust margin for delete button */
+    }
+
+    .course-name {
+        font-size: 1rem; /* Reduce font size for course names */
+    }
+
+    .draft-title {
+        font-size: 0.9rem; /* Adjust draft title font size */
+    }
+
+    .course-created {
+        font-size: 0.8rem; /* Reduce font size for course created date */
+    }
+
+    .draft-image {
+        margin-bottom: 8px; /* Adjust margin for draft images */
+    }
+}
+
+
+
 
 .save-button,
 .course-dropdown-change {
@@ -53,6 +89,8 @@ body {
 
 .course-card,
 .draft-card {
+    user-select: none;
+    cursor:pointer;
     background-color: #161b22;
     color: #c9d1d9;
     border: 1px solid #30363d;
@@ -73,6 +111,7 @@ body {
 .course-name {
     font-size: 1.2rem;
     font-weight: bold;
+    
     margin-bottom: 10px;
 }
 
@@ -89,10 +128,12 @@ body {
 }
 
 .draft-title {
+    width: 100%;
+    background-color: #0d1117;
     font-size: 1rem;
-    font-weight: bold;
+    font-family: sans-serif;
     margin-bottom: 0;
-    color: #8b949e;
+    color: #fff;
 }
 
 .dark-mode {
@@ -102,6 +143,8 @@ body {
 
 .dark-mode .course-card,
 .dark-mode .draft-card {
+    user-select: none;
+    cursor: pointer;
     background-color: #0d1117;
     color: #c9d1d9;
     border: 1px solid #30363d;
@@ -119,6 +162,12 @@ body {
 .navbar-title {
     font-size: 1.5rem;
     font-weight: bold;
+    user-select: none;
+}
+
+.navbar-title:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .logout-button {
@@ -135,6 +184,22 @@ body {
     background-color: #d73a4a6f;
     color: #fff;
 }
+
+.draft-card select {
+    background-color: #161b22;
+    color: #c9d1d9;
+    padding: 8px;
+    border: 1px solid #30363d;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.draft-card select option {
+    background-color: #161b22;
+    color: #c9d1d9;
+    border: none;
+}
+
 
 .course-dropdown {
     margin-top: 10px;
