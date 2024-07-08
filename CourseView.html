@@ -32,14 +32,14 @@
         updateDoc,
       } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
       const firebaseConfig = {
-    apiKey: config.apiKey,
-    authDomain: config.authDomain,
-    projectId: config.projectId,
-    storageBucket: config.storageBucket,
-    messagingSenderId: config.messagingSenderId,
-    appId: config.appId,
-    measurementId: config.measurementId
-};
+        apiKey: config.apiKey,
+        authDomain: config.authDomain,
+        projectId: config.projectId,
+        storageBucket: config.storageBucket,
+        messagingSenderId: config.messagingSenderId,
+        appId: config.appId,
+        measurementId: config.measurementId,
+      };
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
       const auth = getAuth(app);
@@ -56,11 +56,11 @@
             const q = query(coursesRef, where("uid", "==", currentUser.uid));
             const querySnapshot = await getDocs(q);
             let courses = [];
-            let globalUserRef = null
-            let privateGlobalUserRef = null
+            let globalUserRef = null;
+            let privateGlobalUserRef = null;
             querySnapshot.forEach((doc) => {
-              globalUserRef = doc.data()
-              privateGlobalUserRef = doc
+              globalUserRef = doc.data();
+              privateGlobalUserRef = doc;
               courses = doc.data().courses;
             });
 
@@ -72,7 +72,7 @@
             // Display notes associated with the selected course
             const rootDiv = document.getElementById("root");
             if (selectedCourse && selectedCourse.notes) {
-              if(selectedCourse.notes.length > 0) rootDiv.innerHTML = ""
+              if (selectedCourse.notes.length > 0) rootDiv.innerHTML = "";
               selectedCourse.notes.forEach((note) => {
                 const noteDiv = document.createElement("div");
                 noteDiv.classList.add("note-card");
@@ -131,45 +131,52 @@
                 });
 
                 draftDropdownChange.addEventListener("click", async () => {
-                    let courseToUpdateText = draftDropdown.selectedOptions[0].text;
+                  let courseToUpdateText =
+                    draftDropdown.selectedOptions[0].text;
 
-                    let allDrafts = globalUserRef.drafts
-                    let noteIndex = selectedCourse.notes.findIndex(_note => _note.title === note.title);
-                    let courseIndex = courses.findIndex(_course => _course.name == courseToUpdateText)
-                    if(courseToUpdateText == "No Course Selected") {
-                        allDrafts.push({
-                            title: note.title,
-                            url: note.url
-                        })
-                    } else {
-                        let receivingCourse = courses[courseIndex]
-                        receivingCourse.notes.push({
-                            title: note.title,
-                            url: note.url
-                        })
-                    }
+                  let allDrafts = globalUserRef.drafts;
+                  let noteIndex = selectedCourse.notes.findIndex(
+                    (_note) => _note.title === note.title,
+                  );
+                  let courseIndex = courses.findIndex(
+                    (_course) => _course.name == courseToUpdateText,
+                  );
+                  if (courseToUpdateText == "No Course Selected") {
+                    allDrafts.push({
+                      title: note.title,
+                      url: note.url,
+                    });
+                  } else {
+                    let receivingCourse = courses[courseIndex];
+                    receivingCourse.notes.push({
+                      title: note.title,
+                      url: note.url,
+                    });
+                  }
 
-                    selectedCourse.notes.splice(noteIndex, 1)
-            
-                            /*selectedCourse.notes.push({
+                  selectedCourse.notes.splice(noteIndex, 1);
+
+                  /*selectedCourse.notes.push({
                                 title: draft.title,
                                 url: draft.url
                             });*/
-            
-                            // Update the document with the modified drafts and courses
-                            await updateDoc(privateGlobalUserRef.ref, {
-                                drafts: allDrafts,
-                                courses: courses
-                            });
-            
-                            // After saving, re-render drafts
-                            location.reload()
-                            alert(`Moved draft to ${(courseToUpdateText == "No Course Selected") ? "Drafts" : courseToUpdateText}`)
-                    })
+
+                  // Update the document with the modified drafts and courses
+                  await updateDoc(privateGlobalUserRef.ref, {
+                    drafts: allDrafts,
+                    courses: courses,
+                  });
+
+                  // After saving, re-render drafts
+                  location.reload();
+                  alert(
+                    `Moved draft to ${courseToUpdateText == "No Course Selected" ? "Drafts" : courseToUpdateText}`,
+                  );
+                });
 
                 noteDiv.appendChild(noteTitle);
                 noteDiv.appendChild(noteImage);
-                noteDiv.appendChild(document.createElement("br"))
+                noteDiv.appendChild(document.createElement("br"));
 
                 noteDiv.appendChild(draftDropdown);
                 noteDiv.appendChild(draftDropdownChange);

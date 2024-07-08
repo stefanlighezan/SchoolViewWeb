@@ -1,26 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Firebase Authentication</title>
-    <link rel="stylesheet" href="styles.css"/>
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div id="root">
-        <form id="authForm">
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" placeholder="Email Address" required><br>
+      <form id="authForm">
+        <label for="email">Email:</label><br />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email Address"
+          required
+        /><br />
 
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password"placeholder="Password"required><br>
+        <label for="password">Password:</label><br />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        /><br />
 
-            <button type="submit" id="authButton">Log In</button>
-        </form>
+        <button type="submit" id="authButton">Log In</button>
+      </form>
     </div>
 
     <!-- Your custom script -->
-     <script src="config.js"></script>
+    <script src="config.js"></script>
     <script type="module" src="script.js"></script>
-</body>
+  </body>
 </html>

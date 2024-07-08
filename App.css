@@ -3,10 +3,11 @@ body {
     padding: 0;
     background-color: #0d1117;
     color: #c9d1d9;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-.delete-button {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+      Arial, sans-serif;
+  }
+  
+  .delete-button {
     margin-top: 8px;
     margin-left: 32px;
     background-color: transparent;
@@ -16,65 +17,66 @@ body {
     border-radius: 5px;
     cursor: pointer;
     float: inline-end;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.delete-button:hover {
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+  
+  .delete-button:hover {
     background-color: #d73a4a6f;
     color: #fff;
-}
-
-@media (max-width: 800px) {
+  }
+  
+  @media (max-width: 800px) {
     body {
-        font-size: 14px; /* Adjust font size for smaller screens */
+      font-size: 14px; /* Adjust font size for smaller screens */
     }
-
+  
     .draft-card,
     .course-card {
-        width: 100%; /* Full width for each card on smaller screens */
+      width: 100%; /* Full width for each card on smaller screens */
     }
-
+  
     .delete-button {
-        margin-left: 0; /* Adjust margin for delete button */
+      margin-left: 0; /* Adjust margin for delete button */
     }
-
+  
     .course-name {
-        font-size: 1rem; /* Reduce font size for course names */
+      font-size: 1rem; /* Reduce font size for course names */
     }
-
+  
     .draft-title {
-        font-size: 0.9rem; /* Adjust draft title font size */
+      font-size: 0.9rem; /* Adjust draft title font size */
     }
-
+  
     .course-created {
-        font-size: 0.8rem; /* Reduce font size for course created date */
+      font-size: 0.8rem; /* Reduce font size for course created date */
     }
-
+  
     .draft-image {
-        margin-bottom: 8px; /* Adjust margin for draft images */
+      margin-bottom: 8px; /* Adjust margin for draft images */
     }
-}
-
-
-
-
-.save-button,
-.course-dropdown-change {
+  }
+  
+  .save-button,
+  .course-dropdown-change {
     background-color: rgba(16, 139, 60, 0.3);
     color: #2ea44f;
     border: 1px solid rgba(16, 139, 60, 0.5);
     padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.save-button:hover,
-.course-dropdown-change:hover {
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+  
+  .save-button:hover,
+  .course-dropdown-change:hover {
     background-color: rgba(16, 139, 60, 0.5);
-}
-
-#root {
+  }
+  
+  #root {
     width: auto;
     display: flex;
     flex-wrap: wrap;
@@ -85,12 +87,12 @@ body {
     border: 1px solid #30363d;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.course-card,
-.draft-card {
+  }
+  
+  .course-card,
+  .draft-card {
     user-select: none;
-    cursor:pointer;
+    cursor: pointer;
     background-color: #161b22;
     color: #c9d1d9;
     border: 1px solid #30363d;
@@ -98,110 +100,113 @@ body {
     padding: 20px;
     width: calc(100% / 3 - 30px);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition:
+      transform 0.2s ease-in-out,
+      box-shadow 0.2s ease-in-out;
     margin-bottom: 20px;
-}
-
-.course-card:hover,
-.draft-card:hover {
+  }
+  
+  .course-card:hover,
+  .draft-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-}
-
-.course-name {
+  }
+  
+  .course-name {
     font-size: 1.2rem;
     font-weight: bold;
-    
+  
     margin-bottom: 10px;
-}
-
-.course-created {
+  }
+  
+  .course-created {
     font-size: 0.9rem;
     color: #8b949e;
-}
-
-.draft-image {
+  }
+  
+  .draft-image {
     width: 100%;
     height: auto;
     border-radius: 8px;
     margin-bottom: 10px;
-}
-
-.draft-title {
+  }
+  
+  .draft-title {
     width: 100%;
     background-color: #0d1117;
     font-size: 1rem;
     font-family: sans-serif;
     margin-bottom: 0;
     color: #fff;
-}
-
-.dark-mode {
+  }
+  
+  .dark-mode {
     background-color: #0d1117;
     color: #c9d1d9;
-}
-
-.dark-mode .course-card,
-.dark-mode .draft-card {
+  }
+  
+  .dark-mode .course-card,
+  .dark-mode .draft-card {
     user-select: none;
     cursor: pointer;
     background-color: #0d1117;
     color: #c9d1d9;
     border: 1px solid #30363d;
-}
-
-.navbar {
+  }
+  
+  .navbar {
     background-color: #0d1117;
     color: #c9d1d9;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.navbar-title {
+  }
+  
+  .navbar-title {
     font-size: 1.5rem;
     font-weight: bold;
     user-select: none;
-}
-
-.navbar-title:hover {
+  }
+  
+  .navbar-title:hover {
     cursor: pointer;
     text-decoration: underline;
-}
-
-.logout-button {
+  }
+  
+  .logout-button {
     background-color: transparent;
     color: #d73a49;
     border: 1px solid #d73a49;
     padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.logout-button:hover {
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+  
+  .logout-button:hover {
     background-color: #d73a4a6f;
     color: #fff;
-}
-
-.draft-card select {
+  }
+  
+  .draft-card select {
     background-color: #161b22;
     color: #c9d1d9;
     padding: 8px;
     border: 1px solid #30363d;
     border-radius: 5px;
     font-size: 1rem;
-}
-
-.draft-card select option {
+  }
+  
+  .draft-card select option {
     background-color: #161b22;
     color: #c9d1d9;
     border: none;
-}
-
-
-.course-dropdown {
+  }
+  
+  .course-dropdown {
     margin-top: 10px;
     width: 100%;
     padding: 8px;
@@ -210,14 +215,15 @@ body {
     border: 1px solid #30363d;
     border-radius: 5px;
     font-size: 0.9rem;
-}
-
-.course-dropdown option {
+  }
+  
+  .course-dropdown option {
     background-color: #0d1117;
     color: #c9d1d9;
-}
-
-.note-image {
+  }
+  
+  .note-image {
     max-width: 800px;
     border-radius: 8px;
-}
+  }
+  
