@@ -15,6 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+let user = null
 
 // Handle form submission
 const authForm = document.getElementById('authForm');
@@ -30,13 +31,15 @@ authForm.addEventListener('submit', async (e) => {
     await signInWithEmailAndPassword(auth, email, password);
             alert('Logged in successfully!');
 
+            user = auth.currentUser
+
             sessionStorage.setItem('currentUser', JSON.stringify(user));
-            sessionStorage.setItem('accessToken', accessToken);
 
             // Redirect to App.html
             window.location.href = 'App.html';
         } catch (signInError) {
             alert(`Error signing in: ${signInError.message}`);
+            console.log(signInError)
         }
 });
 
