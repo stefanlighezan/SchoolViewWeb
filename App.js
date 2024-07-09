@@ -278,8 +278,9 @@ if (!currentUser) {
       // Select the root element where courses will be displayed
       const rootDiv = document.getElementById("root");
 
+      console.log(globalUserRef.data().settings.viewOutdatedCourses.checked)
       // Loop through each course and create HTML elements
-      if(globalUserRef.settings != null && globalUserRef.settings["viewOutdatedCourses"] == true) {
+      if(!globalUserRef.data().settings.viewOutdatedCourses.checked) {
         courses.forEach((course) => {
             if(!returnIsOutdated(course.created_at)) {
                 const courseDiv = document.createElement("div");
