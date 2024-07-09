@@ -279,7 +279,7 @@ if (!currentUser) {
       const rootDiv = document.getElementById("root");
 
       // Loop through each course and create HTML elements
-      if(globalUserRef.settings["viewOutdatedCourses"] == true) {
+      if(globalUserRef.settings != null && globalUserRef.settings["viewOutdatedCourses"] == true) {
         courses.forEach((course) => {
             if(!returnIsOutdated(course.created_at)) {
                 const courseDiv = document.createElement("div");
@@ -340,5 +340,14 @@ if (!currentUser) {
 }
 
 function returnIsOutdated(string) {
-    
+    const currentDate = new Date();
+        const oneYearFromCreatedAt = new Date(string);
+        oneYearFromCreatedAt.setFullYear(oneYearFromCreatedAt.getFullYear() + 1);
+        oneYearFromCreatedAt.setMonth(5)
+
+        console.log(currentDate > oneYearFromCreatedAt)
+
+        // Compare course creation date with one year from now
+
+        return currentDate > oneYearFromCreatedAt;
 }
