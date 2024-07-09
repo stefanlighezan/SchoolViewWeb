@@ -162,6 +162,11 @@ body {
     justify-content: space-between;
     align-items: center;
   }
+
+  .navbar-end {
+    display: flex;
+    justify-content: center;
+  }
   
   .navbar-title {
     font-size: 1.5rem;
@@ -180,10 +185,28 @@ body {
     border: 1px solid #d73a49;
     padding: 8px 16px;
     border-radius: 5px;
+    margin-right: 12px;
     cursor: pointer;
     transition:
       background-color 0.3s ease,
       color 0.3s ease;
+  }
+
+  .settings {
+    background-color: #000000;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    padding: 8px 16px;
+    border-radius: 5px;
+    margin-right: 12px;
+    cursor: pointer;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .settings:hover {
+    background-color: #0d1117;
   }
   
   .logout-button:hover {

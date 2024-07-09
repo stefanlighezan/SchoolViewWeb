@@ -279,27 +279,53 @@ if (!currentUser) {
       const rootDiv = document.getElementById("root");
 
       // Loop through each course and create HTML elements
-      courses.forEach((course) => {
-        const courseDiv = document.createElement("div");
-        courseDiv.classList.add("course-card");
-
-        const courseName = document.createElement("h2");
-        courseName.textContent = course.name;
-        courseName.classList.add("course-name");
-
-        const courseId = document.createElement("p");
-        courseId.textContent = `Course ID: ${course.id}`;
-
-        const courseCreatedAt = document.createElement("p");
-        courseCreatedAt.textContent = `Created At: ${course.created_at}`;
-        courseCreatedAt.classList.add("course-created");
-
-        courseDiv.appendChild(courseName);
-        courseDiv.appendChild(courseId);
-        courseDiv.appendChild(courseCreatedAt);
-
-        rootDiv.appendChild(courseDiv);
-      });
+      if(globalUserRef.settings["viewOutdatedCourses"] == true) {
+        courses.forEach((course) => {
+            if(!returnIsOutdated(course.created_at)) {
+                const courseDiv = document.createElement("div");
+                courseDiv.classList.add("course-card");
+    
+                const courseName = document.createElement("h2");
+                courseName.textContent = course.name;
+                courseName.classList.add("course-name");
+    
+                const courseId = document.createElement("p");
+                courseId.textContent = `Course ID: ${course.id}`;
+    
+                const courseCreatedAt = document.createElement("p");
+                courseCreatedAt.textContent = `Created At: ${course.created_at}`;
+                courseCreatedAt.classList.add("course-created");
+    
+                courseDiv.appendChild(courseName);
+                courseDiv.appendChild(courseId);
+                courseDiv.appendChild(courseCreatedAt);
+    
+                rootDiv.appendChild(courseDiv);
+            }
+          });
+      } else {
+        courses.forEach((course) => {
+            const courseDiv = document.createElement("div");
+                courseDiv.classList.add("course-card");
+    
+                const courseName = document.createElement("h2");
+                courseName.textContent = course.name;
+                courseName.classList.add("course-name");
+    
+                const courseId = document.createElement("p");
+                courseId.textContent = `Course ID: ${course.id}`;
+    
+                const courseCreatedAt = document.createElement("p");
+                courseCreatedAt.textContent = `Created At: ${course.created_at}`;
+                courseCreatedAt.classList.add("course-created");
+    
+                courseDiv.appendChild(courseName);
+                courseDiv.appendChild(courseId);
+                courseDiv.appendChild(courseCreatedAt);
+    
+                rootDiv.appendChild(courseDiv);
+          });
+      }
 
       // Render drafts
       await renderDrafts();
@@ -307,4 +333,12 @@ if (!currentUser) {
       console.error("Error fetching courses or drafts:", error);
     }
   });
+
+  document.getElementById("settings").addEventListener("click", () => {
+    window.location.href = "Settings.html";
+  })
+}
+
+function returnIsOutdated(string) {
+    
 }

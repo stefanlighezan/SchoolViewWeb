@@ -51,6 +51,8 @@
             const urlParams = new URLSearchParams(window.location.search);
             const courseName = urlParams.get("name");
 
+            document.title = courseName
+
             // Fetch courses data
             const coursesRef = collection(db, "users");
             const q = query(coursesRef, where("uid", "==", currentUser.uid));
