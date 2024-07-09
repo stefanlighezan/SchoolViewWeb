@@ -1,7 +1,45 @@
 body {
-    margin: 0;
+    margin: 24px;
     padding: 0;
     background-color: #0d1117;
     color: #c9d1d9;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
+
+.setting {
+    display: flex;
+    align-items: center;
+    background-color: #0d1117;
+    padding: 8px;
+}
+
+.setting input[type="checkbox"] {
+    appearance: none; /* Hide default checkbox */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 24px; /* Adjust size as needed */
+    height: 24px;
+    background-color: #0d1117; /* Background color of the checkbox */
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 4px; /* Rounded corners */
+    outline: none; /* Remove outline */
+    cursor: pointer; /* Show pointer cursor on hover */
+    position: relative; /* Positioning for pseudo-element */
+  }
+  
+  .setting input[type="checkbox"]:checked {
+    background-color: #4CAF50; /* Green background when checked */
+    color: #4CAF50;
+
+  }
+  
+  .setting input[type="checkbox"]::before {
+    content: ""; /* Create a pseudo-element */
+    width: 16px; /* Size of the "checkmark" box */
+    height: 16px;
+  }
+  
+  .setting input[type="checkbox"]:checked::before {
+    background-color: #0d1117; /* Green box color when checked */
+  }
+  

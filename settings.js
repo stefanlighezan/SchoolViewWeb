@@ -37,11 +37,13 @@ if (currentUser) {
           let globalUserRef = null;
           let privateGlobalUserRef = null;
           let settings = null;
+          let settingsOriginal = null;
       
           querySnapshot.forEach((doc) => {
             globalUserRef = doc.data();
             privateGlobalUserRef = doc;
             settings = doc.data().settings;
+            settingsOriginal = settings
           });
       
           let isAnyUnchecked = false;
@@ -50,10 +52,12 @@ if (currentUser) {
           Object.keys(settings).forEach((key) => {
             const settingValue = settings[key];
             console.log(`Setting '${key}' has value '${settingValue.checked}'`);
+            let isChecked = settingValue.checked;
       
             let root = document.getElementById("settingsContainer");
       
             const div = document.createElement("div");
+            div.classList.add("setting")
       
             const textDocument = document.createElement("p");
             textDocument.textContent = settingValue.name;
@@ -61,24 +65,31 @@ if (currentUser) {
             const checkBox = document.createElement("input");
             checkBox.type = "checkbox";
             checkBox.checked = settingValue.checked;
+            let anyUnchecked = false;
+
+            checkBoxes.push(checkBox);
       
             checkBox.addEventListener("change", () => {
-              let anyUnchecked = false;
-      
-              checkBoxes.forEach((cb) => {
-                if (cb.checked !== settings[key].checked) {
-                  anyUnchecked = true;
-                }
+                
+              
+                checkBoxes.forEach((cb) => {
+                anyUnchecked = false
+                  if (cb.checked != isChecked) {
+                    anyUnchecked = true;
+                    console.log(settings[key])
+                    settingsOriginal[key].checked = checkBox.checked;
+                  }
+                });
+              
+                isAnyUnchecked = anyUnchecked;
+                let btn = document.getElementById("saveSettingsButton");
+                btn.disabled = !isAnyUnchecked; // Disable button if no checkboxes are changed
               });
-      
-              isAnyUnchecked = anyUnchecked;
-              let btn = document.getElementById("saveSettingsButton");
-              btn.disabled = !isAnyUnchecked;
-            });
+              
       
             div.appendChild(textDocument);
             div.appendChild(checkBox);
-            checkBoxes.push(checkBox);
+    
             root.appendChild(div);
           });
       
@@ -88,12 +99,7 @@ if (currentUser) {
       
           btn.addEventListener("click", async () => {
             // Prepare updated settings object
-            let updatedSettings = settings
-            for(let i = 0; i < Object.keys(settings).length; i++) {
-                let key = updatedSettings[i]
-
-                updatedSettings[i] = checkBoxes[i].checked
-            }
+            let updatedSettings = settingsOriginal
 
       
             // Update Firestore document with the updated settings
